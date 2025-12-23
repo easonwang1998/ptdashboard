@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>魚鮮會社 PT 職能儀表板</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f9; padding: 20px; color: #333; }
+        .container { max-width: 500px; margin: auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #1a73e8; }
+        .search-box { margin-bottom: 20px; text-align: center; }
+        input { padding: 10px; width: 70%; border: 1px solid #ddd; border-radius: 5px; }
+        .card { display: none; border-top: 2px solid #eee; padding-top: 20px; }
+        .stat { display: flex; justify-content: space-between; margin: 10px 0; }
+        .progress-container { background: #eee; border-radius: 10px; height: 25px; width: 100%; margin: 15px 0; overflow: hidden; }
+        .progress-bar { background: linear-gradient(90deg, #4caf50, #8bc34a); height: 100%; width: 0%; transition: width 0.5s; text-align: center; color: white; font-size: 14px; line-height: 25px; }
+        .badge { display: inline-block; padding: 5px 15px; border-radius: 20px; color: white; font-weight: bold; background: #f39c12; }
+        .info-text { font-size: 0.9em; color: #666; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>🍣 魚鮮會社 PT 儀表板</h2>
+    <div class="search-box">
+        <input type="text" id="nameInput" placeholder="請輸入您的姓名..." oninput="searchData()">
+    </div>
+
+    <div id="resultCard" class="card">
+        <div class="stat"><span>目前等級:</span> <span id="lvl" class="badge"></span></div>
+        <div class="stat"><span>生涯總時數:</span> <b id="totalHrs"></b> H</div>
+        <div class="progress-container">
+            <div id="pBar" class="progress-bar">0%</div>
+        </div>
+        <div id="diffText" style="text-align: center; font-weight: bold; color: #e74c3c;"></div>
+        <p class="info-text">進度條根據當前職級考核目標計算</p>
+    </div>
+</div>
+
+<script>
+    // 【修改重點】請把下面這行引號內的網址，換成你剛剛在 Google 試算表發佈的 CSV 網址
+    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPKyIVGlT4rmWEOUPwSdccHGWEaGPF3QhMm0rXnh7g_0kJx9iXFzIGVoY_uWOUHN9La8KjZOp5BMAv/pub?output=csv';
+
+    let ptData = [];
+
+    // 抓取資料
+    Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        complete: function(results) {
+            ptData = results.data;
+        }
+    });
+
+    function searchData() {
+        const name = document.getElementById('nameInput').value.trim();
+        const card = document.getElementById('resultCard');
+        
+        const user = ptData.find(row => row.姓名 === name);
+
+        if (user && name !== "") {
+            card.style.display = 'block';
+            document.getElementById('lvl').innerText = user.等級;
+            document.getElementById('totalHrs').innerText = user.上班時數;
+
+            // 計算邏輯
+            let current = parseFloat(user.上班時數) || 0;
+            let base = parseFloat(user.晉升時總時數) || 0;
+            let target = parseFloat(user.下次考核門檻) || 0;
+            
+            let thisPeriod = current - base;
+            let goal = target - base;
+            let percent = Math.min(Math.round((thisPeriod / goal) * 100), 100);
+            
+            document.getElementById('pBar').style.width = percent + '%';
+            document.getElementById('pBar').innerText = percent + '%';
+            document.getElementById('diffText').innerText = "距離考核還差 " + Math.max(0, target - current) + " 小時";
+        } else {
+            card.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
