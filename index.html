@@ -3,103 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>魚鮮會社 PT 職能儀表板</title>
+    <title>魚鮮會社 PT 全員考核進度面板</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; padding: 20px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 450px; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-        h2 { text-align: center; color: #1a73e8; margin-bottom: 25px; letter-spacing: 1px; }
-        .search-box { margin-bottom: 30px; position: relative; }
-        input { width: 100%; padding: 12px 15px; border: 2px solid #e1e4e8; border-radius: 12px; font-size: 16px; box-sizing: border-box; transition: border-color 0.3s; }
-        input:focus { border-color: #1a73e8; outline: none; }
-        .card { display: none; border-top: 1px solid #eee; padding-top: 25px; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .label { color: #5f6368; font-size: 14px; }
-        .value { font-weight: 600; color: #202124; font-size: 16px; }
-        .badge { background: #ff9800; color: white; padding: 4px 12px; border-radius: 50px; font-size: 14px; }
-        .progress-section { margin: 25px 0; }
-        .progress-header { display: flex; justify-content: space-between; font-size: 13px; color: #5f6368; margin-bottom: 8px; }
-        .progress-container { background: #e8eaed; border-radius: 10px; height: 20px; width: 100%; overflow: hidden; }
-        .progress-bar { background: linear-gradient(90deg, #4285f4, #34a853); height: 100%; width: 0%; transition: width 0.8s ease-in-out; }
-        .countdown { text-align: center; background: #fce8e6; color: #d93025; padding: 10px; border-radius: 8px; font-weight: bold; margin-top: 20px; }
-        .footer-note { font-size: 12px; color: #9aa0a6; text-align: center; margin-top: 20px; line-height: 1.5; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f8f9fa; margin: 0; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h2 { color: #1a73e8; margin-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: auto; }
+        .card { background: white; border-radius: 15px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-left: 5px solid #ddd; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card.L1 { border-left-color: #cd7f32; } /* 銅 */
+        .card.L2 { border-left-color: #c0c0c0; } /* 銀 */
+        .card.L3 { border-left-color: #ffd700; } /* 金 */
+        .name-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .name { font-size: 1.2em; font-weight: bold; color: #202124; }
+        .badge { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: bold; background: #eee; }
+        .stat { font-size: 14px; color: #5f6368; margin: 5px 0; }
+        .progress-container { background: #e8eaed; border-radius: 10px; height: 12px; width: 100%; margin: 15px 0 10px 0; overflow: hidden; }
+        .progress-bar { background: linear-gradient(90deg, #4285f4, #34a853); height: 100%; transition: width 1s; }
+        .percent-text { font-size: 12px; font-weight: bold; color: #1a73e8; float: right; }
+        .remain-tag { font-size: 13px; font-weight: bold; padding: 8px; border-radius: 5px; text-align: center; margin-top: 10px; }
+        .status-ready { background: #e6f4ea; color: #1e8e3e; } /* 達標 */
+        .status-wait { background: #fce8e6; color: #d93025; } /* 累積中 */
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>🍣 魚鮮會社 PT 儀表板</h2>
-    <div class="search-box">
-        <input type="text" id="nameInput" placeholder="輸入您的姓名查看進度..." oninput="searchData()">
-    </div>
-
-    <div id="resultCard" class="card">
-        <div class="stat-row">
-            <span class="label">目前職級</span>
-            <span id="lvl" class="badge">--</span>
-        </div>
-        <div class="stat-row">
-            <span class="label">生涯總累積時數</span>
-            <span class="value"><span id="totalHrs">0</span> H</span>
-        </div>
-        
-        <div class="progress-section">
-            <div class="progress-header">
-                <span>本職級考核進度</span>
-                <span id="percentText">0%</span>
-            </div>
-            <div class="progress-container">
-                <div id="pBar" class="progress-bar"></div>
-            </div>
-        </div>
-
-        <div id="diffText" class="countdown"></div>
-        
-        <div class="footer-note">
-            資料每 5-10 分鐘自動同步<br>
-            若數據有誤請洽店鋪主管
-        </div>
-    </div>
+<div class="header">
+    <h2>🍣 魚鮮會社 PT 全員進度面板</h2>
+    <div id="loading" style="color: #666;">資料同步中...</div>
 </div>
 
+<div class="grid" id="dataGrid">
+    </div>
+
 <script>
-    // 【重要】請務必將下方的網址替換為你 Google 試算表發佈的 CSV 網址
+    // 【重要】替換成你的 CSV 網址
     const csvUrl = '你的GOOGLE試算表CSV發佈網址';
 
-    let ptData = [];
-
-    // 使用 PapaParse 讀取 CSV
     Papa.parse(csvUrl, {
         download: true,
         header: true,
         skipEmptyLines: true,
         complete: function(results) {
-            ptData = results.data;
-            console.log("資料加載成功", ptData);
+            document.getElementById('loading').style.display = 'none';
+            renderCards(results.data);
         }
     });
 
-    function searchData() {
-        const name = document.getElementById('nameInput').value.trim();
-        const card = document.getElementById('resultCard');
-        
-        // 搜尋員工，排除空白列並處理前後空格
-        const user = ptData.find(row => row["姓名"] && row["姓名"].trim() === name);
+    function renderCards(data) {
+        const grid = document.getElementById('dataGrid');
+        grid.innerHTML = ""; // 清空
 
-        if (user && name !== "") {
-            card.style.display = 'block';
-            
-            // 抓取各欄位數值
+        data.forEach(user => {
+            if (!user["姓名"]) return; // 跳過空行
+
+            // 讀取數據
+            const name = user["姓名"].trim();
             const lvl = user["等級"] || "L1";
             const total = parseFloat(user["上班時數"]) || 0;
             const base = parseFloat(user["晉升時總時數"]) || 0;
             const target = parseFloat(user["下次考核門檻"]) || 0;
             const currentPeriod = parseFloat(user["本職級累積時數"]) || (total - base);
-
-            // 更新畫面
-            document.getElementById('lvl').innerText = lvl;
-            document.getElementById('totalHrs').innerText = total;
 
             // 計算進度
             const goal = target - base;
@@ -107,25 +72,33 @@
             if (goal > 0) {
                 percent = Math.min(Math.round((currentPeriod / goal) * 100), 100);
             }
-            
-            // 更新進度條
-            document.getElementById('pBar').style.width = percent + '%';
-            document.getElementById('percentText').innerText = percent + '%';
-            
-            // 更新倒數文字
             const remain = Math.max(0, target - total);
-            if (remain <= 0) {
-                document.getElementById('diffText').innerText = "✨ 已達考核門檻！";
-                document.getElementById('diffText').style.background = "#e6f4ea";
-                document.getElementById('diffText').style.color = "#1e8e3e";
-            } else {
-                document.getElementById('diffText').innerText = "距離下階段考核還差 " + remain + " 小時";
-                document.getElementById('diffText').style.background = "#fce8e6";
-                document.getElementById('diffText').style.color = "#d93025";
-            }
-        } else {
-            card.style.display = 'none';
-        }
+
+            // 建立卡片 HTML
+            const card = document.createElement('div');
+            card.className = `card ${lvl}`;
+            
+            const statusClass = remain <= 0 ? 'status-ready' : 'status-wait';
+            const statusText = remain <= 0 ? '✨ 已達考核門檻' : `距離考核差 ${remain} H`;
+
+            card.innerHTML = `
+                <div class="name-row">
+                    <span class="name">${name}</span>
+                    <span class="badge">${lvl}</span>
+                </div>
+                <div class="stat">生涯總時數: <b>${total}</b> H</div>
+                <div class="stat">職級起點: ${base} H / 目標: ${target} H</div>
+                
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: ${percent}%"></div>
+                </div>
+                <span class="percent-text">進度 ${percent}%</span>
+                <div style="clear:both"></div>
+                
+                <div class="remain-tag ${statusClass}">${statusText}</div>
+            `;
+            grid.appendChild(card);
+        });
     }
 </script>
 
