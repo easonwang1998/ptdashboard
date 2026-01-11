@@ -1,134 +1,200 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>魚鮮會社 PT 考核儀表板</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --accent: #e67e22;
-            --success: #27ae60;
-            --bg: #f4f7f6;
-            --card-bg: #ffffff;
-        }
-        body { font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; background-color: var(--bg); margin: 0; padding: 40px 20px; color: var(--primary); }
-        .header { text-align: center; margin-bottom: 50px; }
-        .header h1 { font-weight: 300; letter-spacing: 4px; margin-bottom: 10px; color: var(--primary); }
-        .header p { color: #7f8c8d; font-size: 0.9em; }
+<div class="bg-white rounded-3xl p-8 mb-10 border border-slate-100 flex flex-col md:flex-row gap-10">
+    <div class="flex-grow">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-black">Level 1：Xây dựng Thói quen Phục vụ</h2>
+                <p class="text-slate-400 text-sm">Đánh giá sau 150 giờ ｜ Tái đánh giá mỗi 100 giờ nếu chưa đạt</p>
+            </div>
+            <div class="text-3xl font-black text-brand-gold">$200/hr</div>
+        </div>
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; max-width: 1200px; margin: auto; }
-        
-        .card { 
-            background: var(--card-bg); border-radius: 20px; padding: 30px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.3s ease;
-            position: relative; overflow: hidden; border: 1px solid rgba(0,0,0,0.03);
-        }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.08); }
-        
-        /* 等級標籤 */
-        .level-tag { position: absolute; top: 20px; right: 20px; font-size: 11px; font-weight: bold; padding: 4px 12px; border-radius: 50px; background: #eee; color: #777; letter-spacing: 1px; }
-        .card[data-lvl="L1"] .level-tag { background: #d35400; color: white; }
-        .card[data-lvl="L2"] .level-tag { background: #95a5a6; color: white; }
-        .card[data-lvl="L3"] .level-tag { background: #f1c40f; color: var(--primary); }
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Nghi thức Cơ bản</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Chủ động chào hỏi, mỉm cười đối đáp, tác phong gọn gàng</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động và tự nhiên suốt quá trình ｜ 3: Thỉnh thoảng cần nhắc nhở nhưng biết sửa đổi ｜ 1: Không chào hỏi hoặc thái độ lạnh nhạt</div>
+        </div>
 
-        .name { font-size: 1.4em; font-weight: 600; margin-bottom: 20px; display: block; }
-        
-        .stat-group { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.85em; color: #95a5a6; }
-        .stat-value { color: var(--primary); font-weight: 500; }
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Quy trình Sảnh</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Thực hiện rót trà, dọn bàn, setup bàn và kiểm tra vật dụng</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động hoàn thành, thao tác dứt khoát ｜ 3: Làm được nhưng chưa ổn định ｜ 1: Sót nhiều hoặc cần hướng dẫn</div>
+        </div>
 
-        /* 進度條樣式 */
-        .progress-container { background: #ecf0f1; border-radius: 10px; height: 8px; width: 100%; margin: 15px 0 8px 0; overflow: hidden; }
-        .progress-bar { background: linear-gradient(90deg, #34495e, var(--accent)); height: 100%; width: 0%; transition: width 1.2s cubic-bezier(0.1, 0.5, 0.5, 1); }
-        
-        .percent-text { font-size: 12px; font-weight: bold; color: var(--accent); display: block; text-align: right; }
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Tin cậy Chuyên cần</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Đến đúng giờ, tuân thủ quy định xin nghỉ</span>
+            </div>
+            <div class="score-hint">● 5: Luôn đúng giờ, đi làm ổn định ｜ 3: Thỉnh thoảng chậm trễ ｜ 1: Thường xuyên đi trễ hoặc về sớm</div>
+        </div>
 
-        .remain-box { 
-            margin-top: 25px; padding: 12px; border-radius: 12px; font-size: 13px; text-align: center; font-weight: bold;
-            background: #fdfefe; border: 1px solid #eee; transition: all 0.3s;
-        }
-        .ready { background: #eafaf1; color: var(--success); border-color: #d4efdf; }
-        .pending { color: #e67e22; border-color: #fbeee6; }
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Hỗ trợ Đồng đội</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Chủ động hỗ trợ bưng bê/dọn dẹp, hành động ngay khi có nhiệm vụ</span>
+            </div>
+            <div class="score-hint">● 5: Phản ứng nhanh, chủ động hỗ trợ ｜ 3: Chỉ làm khi có lệnh ｜ 1: Từ chối hỗ trợ hoặc tiêu cực</div>
+        </div>
 
-        #loading { text-align: center; color: #bdc3c7; margin-top: 100px; font-weight: 300; }
-    </style>
-</head>
-<body>
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Vệ sinh Dọn dẹp</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Hoàn thành vệ sinh khu vực, đạt chuẩn khi quản lý kiểm tra</span>
+            </div>
+            <div class="score-hint">● 5: Dọn ngay khi khách đi, môi trường sạch sẽ ｜ 3: Thỉnh thoảng cần nhắc ｜ 1: Vệ sinh qua loa, không đạt chuẩn</div>
+        </div>
+    </div>
 
-<div class="header">
-    <h1>GYOSEN</h1>
-    <p>PART-TIME PERFORMANCE DASHBOARD</p>
+    <div class="sidebar-box w-full md:w-72">
+        <h5 class="text-brand-red font-black mb-4">Điều kiện thăng cấp L2</h5>
+        <ul class="space-y-3 text-sm font-bold text-slate-600">
+            <li>● Tích lũy đủ 150 giờ để đánh giá</li>
+            <li>● Điểm đánh giá trung bình ≥ 4.0</li>
+            <li>● Không có ghi chép vi phạm vận hành</li>
+            <li>● Sinh viên nước ngoài đạt chứng chỉ tiếng Trung A2</li>
+        </ul>
+    </div>
 </div>
 
-<div id="loading">讀取雲端數據中...</div>
-<div class="grid" id="dataGrid"></div>
+<div class="bg-white rounded-3xl p-8 mb-10 border border-slate-100 flex flex-col md:flex-row gap-10">
+    <div class="flex-grow">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-black">Level 2：Hỗ trợ Ổn định & Điều phối</h2>
+                <p class="text-slate-400 text-sm">Đánh giá sau 300 giờ ｜ Tái đánh giá mỗi 150 giờ nếu chưa đạt</p>
+            </div>
+            <div class="text-3xl font-black text-brand-gold">$220/hr</div>
+        </div>
 
-<script>
-    // 請確認此處為您的 CSV 網址（確保最後是 /pub?output=csv）
-    const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPKyIVGlT4rmWEOUPwSdccHGWEaGPF3QhMm0rXnh7g_0kJx9iXFzIGVoY_uWOUHN9La8KjZOp5BMAv/pub?output=csv';
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Nắm vững Quy trình</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Điều chỉnh thứ tự phục vụ/dọn dẹp, giữ hiện trường trôi chảy</span>
+            </div>
+            <div class="score-hint">● 5: Tự chủ điều chỉnh, hiện trường trôi chảy ｜ 3: Phối hợp theo nhu cầu hiện trường ｜ 1: Thao tác chậm, di chuyển lộn xộn</div>
+        </div>
 
-    Papa.parse(csvUrl, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: function(results) {
-            document.getElementById('loading').style.display = 'none';
-            renderCards(results.data);
-        }
-    });
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Chăm sóc Khách hàng</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Đoán trước nhu cầu, châm thêm canh, chủ động cảm ơn</span>
+            </div>
+            <div class="score-hint">● 5: Luôn chủ động, khách hài lòng ｜ 3: Thỉnh thoảng chủ động ｜ 1: Khách nhắc mới làm</div>
+        </div>
 
-    function renderCards(data) {
-        const grid = document.getElementById('dataGrid');
-        grid.innerHTML = "";
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Theo dõi Món ăn</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Chủ động báo cáo quản lý nếu quá 20 phút</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động theo dõi và báo cáo kịp thời ｜ 3: Xử lý sau khi được nhắc ｜ 1: Hoàn toàn không theo dõi tiến độ</div>
+        </div>
 
-        data.forEach(user => {
-            if (!user["姓名"]) return;
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Hợp tác Nhóm</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Kịp thời hỗ trợ khu vực khác, chủ động trám vị trí</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động trám chỗ, phản ứng nhanh ｜ 3: Hỗ trợ thụ động ｜ 1: Không hỗ trợ</div>
+        </div>
 
-            const name = user["姓名"].trim();
-            const lvl = user["等級"] || "L1";
-            const total = parseFloat(user["上班時數"]) || 0;
-            const target = parseFloat(user["下次考核門檻"]) || 0;
-            const base = parseFloat(user["晉升時總時數"]) || 0;
-            
-            // 計算本職級累積與進度
-            const currentPeriod = total - base;
-            const goal = target - base;
-            const percent = goal > 0 ? Math.min(Math.round((currentPeriod / goal) * 100), 100) : 0;
-            const remain = Math.max(0, target - total);
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Thái độ Giao tiếp</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Báo cáo sự cố và khiếu nại rõ ràng, bình tĩnh</span>
+            </div>
+            <div class="score-hint">● 5: Kịp thời, rõ ràng, bình tĩnh ｜ 3: Báo cáo không đầy đủ ｜ 1: Không báo cáo hoặc giọng điệu tệ</div>
+        </div>
+    </div>
 
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.setAttribute('data-lvl', lvl);
+    <div class="sidebar-box w-full md:w-72">
+        <h5 class="text-brand-gold font-black mb-4">Điều kiện thăng cấp L3</h5>
+        <ul class="space-y-3 text-sm font-bold text-slate-600">
+            <li>● Tích lũy đủ 300 giờ để đánh giá</li>
+            <li>● Điểm đánh giá trung bình ≥ 4.25</li>
+            <li>● Thể hiện ổn định hành vi hỗ trợ và dẫn dắt người mới</li>
+            <li>● Không có ghi chép vi phạm vận hành trong 3 kỳ</li>
+            <li>● Sinh viên nước ngoài đạt chứng chỉ tiếng Trung B2</li>
+        </ul>
+    </div>
+</div>
 
-            const isReady = remain <= 0;
-            const statusClass = isReady ? 'ready' : 'pending';
-            const statusText = isReady ? '✨ 已達考核門檻' : `距離考核目標還差 ${remain} 小時`;
+<div class="rounded-3xl p-8 mb-10 level-box-premium flex flex-col md:flex-row gap-10">
+    <div class="premium-tag">CORE PARTNER</div>
+    <div class="flex-grow">
+        <div class="flex justify-between items-center mb-8">
+            <div>
+                <h2 class="text-2xl font-black">Level 3：Dẫn dắt Hiện trường & Điều phối Thông tin</h2>
+                <p class="text-slate-400 text-sm">Đánh giá sau 600 giờ ｜ Tái đánh giá định kỳ mỗi 300 giờ</p>
+            </div>
+            <div class="text-3xl font-black premium-price">$250/hr</div>
+        </div>
 
-            card.innerHTML = `
-                <div class="level-tag">${lvl}</div>
-                <span class="name">${name}</span>
-                
-                <div class="stat-group">
-                    <span>生涯總累積時數</span>
-                    <span class="stat-value">${total} H</span>
-                </div>
-                <div class="stat-group">
-                    <span>當前職級起點 / 目標</span>
-                    <span class="stat-value">${base} / ${target}</span>
-                </div>
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Nắm bắt Thông tin</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Nắm tình hình ra đơn tại quầy và giải thích thời gian chờ dự kiến</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động quan sát truyền đạt ngay, khách hiểu rõ ｜ 3: Trả lời được nhưng thụ động ｜ 1: Không nắm bắt hoặc thông tin sai</div>
+        </div>
 
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${percent}%"></div>
-                </div>
-                <span class="percent-text">${percent}% 完成度</span>
-                
-                <div class="remain-box ${statusClass}">${statusText}</div>
-            `;
-            grid.appendChild(card);
-        });
-    }
-</script>
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Điều phối Hợp tác</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Phân chia nhiệm vụ rõ ràng, ổn định nhịp độ hiện trường</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động phân nhiệm vụ, hiện trường trôi chảy ｜ 3: Hỗ trợ thụ động, phân công không rõ ｜ 1: Phớt lờ nhu cầu nhóm hoặc gây hỗn loạn</div>
+        </div>
 
-</body>
-</html>
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Thái độ Giao tiếp</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Bình tĩnh trấn an khách, giao tiếp mệnh lệnh rõ ràng</span>
+            </div>
+            <div class="score-hint">● 5: Diễn đạt bình tĩnh, trấn an hiệu quả ｜ 3: Giao tiếp được nhưng chưa rõ ｜ 1: Giọng điệu nóng nảy hoặc cảm tính</div>
+        </div>
+
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Ứng biến tại Quầy</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Độc lập tính tiền, làm đơn mang về và nhận đặt bàn</span>
+            </div>
+            <div class="score-hint">● 5: Chính xác 100%, quy trình trôi chảy ｜ 3: Thỉnh thoảng có sai sót ｜ 1: Sai nhiều lần hoặc quên ghi nhận</div>
+        </div>
+
+        <div class="standard-card">
+            <div class="standard-title-row">
+                <span class="standard-label">Trách nhiệm Chuyên cần</span>
+                <div class="standard-divider"></div>
+                <span class="standard-desc">Không nghỉ đột xuất, chủ động đi làm thay người nghỉ</span>
+            </div>
+            <div class="score-hint">● 5: Chủ động gánh vác, ổn định đáng tin ｜ 3: Phối hợp được nhưng thụ động ｜ 1: Từ chối hỗ trợ hoặc không phối hợp</div>
+        </div>
+    </div>
+
+    <div class="sidebar-box w-full md:w-72">
+        <h5 class="font-black mb-4">Duy trì Tư cách</h5>
+        <ul class="space-y-3 text-sm font-bold">
+            <li>● Điểm trung bình < 3.75 sẽ vào diện theo dõi</li>
+            <li>● Chuyên cần hoặc chất lượng không ổn định sẽ bị giáng cấp</li>
+        </ul>
+    </div>
+</div>
