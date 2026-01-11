@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>魚鮮會社夥伴職能地圖</title>
+    <title>Bản đồ Chức năng Đối tác Gyosen</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -89,11 +89,11 @@
 </head>
 <body>
     <header class="hero-header">
-        <h1 class="hero-title">魚鮮會社夥伴職能地圖</h1>
+        <h1 class="hero-title">Bản đồ Chức năng Đối tác Gyosen</h1>
         <div class="tab-container">
-            <div id="tab-front" class="tab-btn active" onclick="switchTab('front')">外場服務</div>
-            <div id="tab-back" class="tab-btn inactive" onclick="switchTab('back')">內場實務</div>
-            <div id="tab-dash" class="tab-btn inactive" onclick="switchTab('dash')">時數儀表板(測試)</div>
+            <div id="tab-front" class="tab-btn active" onclick="switchTab('front')">Phục vụ Sảnh</div>
+            <div id="tab-back" class="tab-btn inactive" onclick="switchTab('back')">Bếp</div>
+            <div id="tab-dash" class="tab-btn inactive" onclick="switchTab('dash')">Bảng giờ làm (Beta)</div>
         </div>
     </header>
 
@@ -104,42 +104,42 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fa-solid fa-magnifying-glass text-slate-400"></i>
                     </div>
-                    <input type="text" id="searchInput" placeholder="搜尋姓名、等級 (例如: L3)..." 
+                    <input type="text" id="searchInput" placeholder="Tìm tên, cấp độ (Ví dụ: L3)..." 
                         class="block w-full pl-10 pr-3 py-2 border border-slate-200 rounded-full leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-brand-gold focus:border-transparent transition duration-150 ease-in-out sm:text-sm"
                         onkeyup="filterData()">
                 </div>
                 <div class="text-xs text-slate-400 text-right w-full md:w-auto">
-                    <div id="data-cutoff-display" class="font-bold text-slate-600 mb-1">統計截止日：載入中...</div>
-                    <div id="last-update">系統連線時間：載入中...</div>
+                    <div id="data-cutoff-display" class="font-bold text-slate-600 mb-1">Ngày chốt dữ liệu: Đang tải...</div>
+                    <div id="last-update">Thời gian kết nối: Đang tải...</div>
                 </div>
             </div>
         </div>
 
         <div id="common-timeline" class="timeline-container">
             <div class="schedule-grid">
-                <div class="schedule-card"><span class="step-label">Step 01</span><h5 class="font-black text-lg">時數結算</h5><p class="text-slate-400 font-bold">每月月底</p></div>
-                <div class="schedule-card" style="border-top: 6px solid var(--brand-red);"><span class="step-label" style="color:var(--brand-red)">Step 02</span><h5 class="font-black text-lg">評核面談</h5><p class="text-brand-red font-bold">次月 1 - 10 日</p></div>
-                <div class="schedule-card" style="border-top: 6px solid var(--brand-gold);"><span class="step-label" style="color:var(--brand-gold)">Step 03</span><h5 class="font-black text-lg">薪資生效</h5><p class="text-brand-gold font-bold">次月 1 日起</p></div>
-                <div class="schedule-card"><span class="step-label">Step 04</span><h5 class="font-black text-lg">領取加薪</h5><p class="text-slate-600 font-bold">次次月 5 日</p></div>
+                <div class="schedule-card"><span class="step-label">Step 01</span><h5 class="font-black text-lg">Chốt giờ làm</h5><p class="text-slate-400 font-bold">Cuối tháng</p></div>
+                <div class="schedule-card" style="border-top: 6px solid var(--brand-red);"><span class="step-label" style="color:var(--brand-red)">Step 02</span><h5 class="font-black text-lg">Đánh giá</h5><p class="text-brand-red font-bold">Ngày 1-10 tháng sau</p></div>
+                <div class="schedule-card" style="border-top: 6px solid var(--brand-gold);"><span class="step-label" style="color:var(--brand-gold)">Step 03</span><h5 class="font-black text-lg">Hiệu lực lương</h5><p class="text-brand-gold font-bold">Từ 01 tháng sau</p></div>
+                <div class="schedule-card"><span class="step-label">Step 04</span><h5 class="font-black text-lg">Nhận lương mới</h5><p class="text-slate-600 font-bold">Ngày 05 tháng tiếp</p></div>
             </div>
             <div class="mt-8 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                <h6 class="text-sm font-black text-slate-800 mb-3"><i class="fa-solid fa-calendar-check mr-2"></i>2026 運作範例：</h6>
+                <h6 class="text-sm font-black text-slate-800 mb-3"><i class="fa-solid fa-calendar-check mr-2"></i>Ví dụ vận hành 2026:</h6>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-slate-500">
-                    <div><span class="font-bold text-slate-700">1. 結算：</span>2026/01/31 時數達標</div>
-                    <div><span class="font-bold text-slate-700">2. 面談：</span>02/01 - 02/10 間評核</div>
-                    <div><span class="font-bold text-brand-red">3. 生效：</span>02/01 起調整時薪</div>
-                    <div><span class="font-bold text-brand-gold">4. 發薪：</span>03/05 領調整薪資</div>
+                    <div><span class="font-bold text-slate-700">1. Chốt:</span> 31/01/2026 Đạt giờ làm</div>
+                    <div><span class="font-bold text-slate-700">2. Đánh giá:</span> 01/02 - 10/02 Phỏng vấn</div>
+                    <div><span class="font-bold text-brand-red">3. Hiệu lực:</span> 01/02 Điều chỉnh lương</div>
+                    <div><span class="font-bold text-brand-gold">4. Phát lương:</span> 05/03 Nhận lương mới</div>
                 </div>
             </div>
         </div>
 
-        <div id="front-house-content" class="content-section active">載入中...</div>
-        <div id="back-house-content" class="content-section">載入中...</div>
+        <div id="front-house-content" class="content-section active">Đang tải...</div>
+        <div id="back-house-content" class="content-section">Đang tải...</div>
         
         <div id="dashboard-content" class="content-section min-h-[400px] relative">
             <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center bg-white/80 z-20">
                 <i class="fas fa-circle-notch loading-spinner text-4xl text-brand-gold mb-4"></i>
-                <p class="text-slate-400 font-bold">正在讀取資料庫...</p>
+                <p class="text-slate-400 font-bold">Đang đọc dữ liệu...</p>
             </div>
             <div id="data-container" class="opacity-0 transition-opacity duration-500"></div>
         </div>
@@ -148,17 +148,17 @@
     <footer class="footer-info">
         <div class="max-w-[1150px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 text-left">
             <div>
-                <h4><i class="fa-solid fa-eye mr-2"></i>什麼是「觀察期」？</h4>
-                <p class="leading-relaxed">指當月評分低於 <span class="footer-highlight">3.75</span> 或發生<span class="footer-highlight">嚴重事件</span>後，夥伴需進入為期一個月的重點輔導觀察期。期滿後將重新考核：若未通過將進行<span class="footer-highlight">職務降級</span>，通過則<span class="footer-highlight">維持原級</span>。</p>
+                <h4><i class="fa-solid fa-eye mr-2"></i>Thế nào là "Giai đoạn Theo dõi"?</h4>
+                <p class="leading-relaxed">Khi điểm đánh giá tháng dưới <span class="footer-highlight">3.75</span> hoặc xảy ra <span class="footer-highlight">sự cố nghiêm trọng</span>, nhân viên sẽ bước vào "Giai đoạn theo dõi" trong 1 tháng. Sau đó sẽ đánh giá lại: nếu không đạt sẽ bị <span class="footer-highlight">giáng cấp</span>, nếu đạt sẽ <span class="footer-highlight">giữ nguyên cấp</span>.</p>
             </div>
             <div>
-                <h4><i class="fa-solid fa-triangle-exclamation mr-2"></i>什麼是「營運異常」？</h4>
-                <p class="leading-relaxed">指因臨時請假、遲到、或現場失誤，造成團隊需臨時調整班表、出餐錯誤或影響顧客體驗的情況。<br><span class="text-slate-500 text-sm mt-2 block">(註：已提前協調完成調班，或因不可抗力並出示證明者不在此列)</span></p>
+                <h4><i class="fa-solid fa-triangle-exclamation mr-2"></i>Thế nào là "Bất thường Vận hành"?</h4>
+                <p class="leading-relaxed">Chỉ việc xin nghỉ đột xuất, đi trễ, hoặc sai sót tại hiện trường, khiến đội ngũ phải điều chỉnh lịch làm việc, sai món hoặc ảnh hưởng trải nghiệm khách hàng.<br><span class="text-slate-500 text-sm mt-2 block">(Chú ý: Đã đổi ca trước hoặc có chứng nhận bất khả kháng thì không tính)</span></p>
             </div>
         </div>
         <div class="footer-divider"></div>
         <div class="text-center text-xs text-slate-500 tracking-widest uppercase">
-            © 2026 魚鮮會社 PT 夥伴職能發展手冊 ｜ GYOSEN INTERNAL DOCUMENT
+            © 2026 Sổ tay Phát triển Chức năng PT Gyosen ｜ GYOSEN INTERNAL DOCUMENT
         </div>
     </footer>
 
@@ -186,7 +186,7 @@
                     document.getElementById(id).innerHTML = data;
                     if (callback) callback();
                 })
-                .catch(err => console.error('無法載入檔案:', file));
+                .catch(err => console.error('Không thể tải file:', file));
         }
 
         function switchTab(type) {
@@ -222,7 +222,7 @@
         function initDashboard() {
             if (isDashboardLoaded) return; 
 
-            document.getElementById('data-cutoff-display').innerHTML = `<i class="fa-regular fa-clock mr-1"></i>資料統計至：${DATA_CUTOFF_DATE}`;
+            document.getElementById('data-cutoff-display').innerHTML = `<i class="fa-regular fa-clock mr-1"></i>Dữ liệu tính đến: ${DATA_CUTOFF_DATE}`;
 
             const urlParams = new URLSearchParams(window.location.search);
             const isRecruitmentMode = urlParams.get('demo') === '1';
@@ -231,21 +231,21 @@
             const loader = document.getElementById('loader');
             const container = document.getElementById('data-container');
 
-            if(timeDisplay) timeDisplay.innerText = '系統連線時間：' + now.toLocaleString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+            if(timeDisplay) timeDisplay.innerText = 'Thời gian kết nối: ' + now.toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit' });
 
             if (isRecruitmentMode) {
                 const demoData = [
-                    { "姓名": "新進夥伴 (範例)", "等級": "L1", "本職級累積時數": "45", "狀態": "累積中" },
-                    { "姓名": "資深夥伴 (範例)", "等級": "L2", "本職級累積時數": "295", "狀態": "可考核" }, 
-                    { "姓名": "核心幹部 (範例)", "等級": "L3", "本職級累積時數": "120", "狀態": "累積中" }, 
-                    { "姓名": "儲備幹部 (範例)", "等級": "L2", "本職級累積時數": "150", "狀態": "覆核中" }, 
-                    { "姓名": "L1 夥伴 (範例)", "等級": "L1", "本職級累積時數": "155", "狀態": "需評核" }  
+                    { "姓名": "Nhân viên mới (Ví dụ)", "等級": "L1", "本職級累積時數": "45", "狀態": "累積中" },
+                    { "姓名": "Nhân viên cũ (Ví dụ)", "等級": "L2", "本職級累積時數": "295", "狀態": "可考核" }, 
+                    { "姓名": "Cán bộ nòng cốt (Ví dụ)", "等級": "L3", "本職級累積時數": "120", "狀態": "累積中" }, 
+                    { "姓名": "Cán bộ dự bị (Ví dụ)", "等級": "L2", "本職級累積時數": "150", "狀態": "覆核中" }, 
+                    { "姓名": "Nhân viên L1 (Ví dụ)", "等級": "L1", "本職級累積時數": "155", "狀態": "需評核" }  
                 ];
                 globalDashboardData = demoData;
                 renderDashboard(demoData);
                 if(loader) loader.style.display = 'none';
                 if(container) container.classList.remove('opacity-0');
-                if(timeDisplay) timeDisplay.innerHTML += ' <span class="bg-[#B29A1F] text-white px-2 py-0.5 rounded text-xs ml-2 font-bold">招募展示模式</span>';
+                if(timeDisplay) timeDisplay.innerHTML += ' <span class="bg-[#B29A1F] text-white px-2 py-0.5 rounded text-xs ml-2 font-bold">Chế độ Demo Tuyển dụng</span>';
                 isDashboardLoaded = true;
                 return;
             }
@@ -261,12 +261,12 @@
                         if(container) container.classList.remove('opacity-0');
                         isDashboardLoaded = true;
                     } else {
-                        showError('讀取成功但沒有資料');
+                        showError('Đọc thành công nhưng không có dữ liệu');
                     }
                 },
                 error: function(err) {
                     console.error("Error:", err);
-                    showError('無法讀取資料，請確認網路連線');
+                    showError('Không thể đọc dữ liệu, vui lòng kiểm tra mạng');
                 }
             });
         }
@@ -287,7 +287,7 @@
             if(!container) return;
             
             if (data.length === 0) {
-                container.innerHTML = `<div class="p-10 text-center text-slate-400 bg-white rounded-xl border border-dashed border-slate-300"><i class="fa-regular fa-folder-open text-4xl mb-3 block opacity-20"></i>沒有找到符合的資料</div>`;
+                container.innerHTML = `<div class="p-10 text-center text-slate-400 bg-white rounded-xl border border-dashed border-slate-300"><i class="fa-regular fa-folder-open text-4xl mb-3 block opacity-20"></i>Không tìm thấy dữ liệu phù hợp</div>`;
                 return;
             }
 
@@ -305,10 +305,10 @@
                 <table class="min-w-full text-left text-sm whitespace-nowrap border-collapse">
                     <thead class="bg-slate-50 border-b border-slate-200 font-black text-slate-600 uppercase tracking-wider sticky top-0 z-10">
                         <tr>
-                            <th class="px-6 py-5 pl-8">夥伴姓名</th>
-                            <th class="px-6 py-5">目前等級 / 進度</th>
-                            <th class="px-6 py-5 text-right text-brand-red">累積時數</th>
-                            <th class="px-6 py-5 text-center">考核狀態</th>
+                            <th class="px-6 py-5 pl-8">Họ tên</th>
+                            <th class="px-6 py-5">Cấp bậc / Tiến độ</th>
+                            <th class="px-6 py-5 text-right text-brand-red">Giờ tích lũy</th>
+                            <th class="px-6 py-5 text-center">Trạng thái</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
@@ -355,11 +355,11 @@
 
                 let statusHtml = '';
                 if (status.includes('需評核') || status.includes('可考核') || status.includes('可晉升')) {
-                    statusHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 ring-1 ring-green-600/20"><span class="w-1.5 h-1.5 mr-1.5 bg-green-500 rounded-full animate-pulse"></span>考核中</span>`;
+                    statusHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 ring-1 ring-green-600/20"><span class="w-1.5 h-1.5 mr-1.5 bg-green-500 rounded-full animate-pulse"></span>Có thể đánh giá</span>`;
                 } else if (status.includes('觀察') || status.includes('覆核') || status.includes('維持')) {
-                    statusHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 ring-1 ring-orange-600/20">覆核中</span>`;
+                    statusHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700 ring-1 ring-orange-600/20">Đang phúc tra</span>`;
                 } else {
-                    statusHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-400">累積中</span>`;
+                    statusHtml = `<span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-400">Đang tích lũy</span>`;
                 }
 
                 // ★ 電腦版：進度條加大
@@ -395,11 +395,11 @@
                             </div>
                             <div class="text-right">
                                 <div class="font-mono font-black text-2xl text-[#B21F2C]">${hours}</div>
-                                <div class="text-xs text-slate-400">目標 ${targetHours} H</div>
+                                <div class="text-xs text-slate-400">Mục tiêu ${targetHours} H</div>
                             </div>
                         </div>
                         <div class="pl-2">
-                            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>達成率</span><span>${Math.round(progressPercent)}%</span></div>
+                            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>Đạt</span><span>${Math.round(progressPercent)}%</span></div>
                             <div class="w-full h-4 bg-slate-200 rounded-full overflow-hidden mb-4 shadow-inner"><div class="h-full ${progressBarColor} progress-bar-fill shadow-sm" style="width: ${progressPercent}%"></div></div>
                             <div class="flex justify-end">${statusHtml}</div>
                         </div>
