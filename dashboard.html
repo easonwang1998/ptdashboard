@@ -1,0 +1,26 @@
+<div class="max-w-5xl mx-auto py-6">
+    <header class="text-center mb-10">
+        <h2 class="text-3xl font-black text-slate-800 mb-3">
+            <i class="fa-solid fa-clock text-brand-red mr-3"></i>Bảng Theo dõi Giờ làm Đối tác
+        </h2>
+        <p class="text-slate-500 font-bold">Đồng bộ tức thì dữ liệu Google Sheets</p>
+    </header>
+
+    <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden relative min-h-[400px]">
+        
+        <div id="loader" class="absolute inset-0 flex flex-col items-center justify-center bg-white z-10">
+            <i class="fas fa-circle-notch loading-spinner text-4xl text-brand-gold mb-4"></i>
+            <p class="text-slate-400 font-bold">Đang kết nối cơ sở dữ liệu...</p>
+        </div>
+
+        <div id="data-container" class="overflow-x-auto opacity-0 transition-opacity duration-500">
+        </div>
+    </div>
+    
+    <div class="mt-6 text-center">
+        <p class="text-xs text-slate-400">
+            <i class="fa-solid fa-circle-info mr-1"></i>Nguồn dữ liệu: GYOSEN PT MASTER SHEET (Chỉ xem)
+        </p>
+        <div class="text-xs text-slate-300 mt-2 font-mono" id="last-update">Thời gian cập nhật: Đang tải...</div>
+    </div>
+</div>
